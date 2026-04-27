@@ -1,66 +1,656 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    background-image: url('https://via.placeholder.com/1920x1080/000000/FFFFFF?text=Anime+Background'); /* Placeholder for anime-themed background */
-    background-size: cover;
-    background-attachment: fixed;
+
+/* style.css
+   Modern, clean UI for AnimeVerseGo
+   Includes responsive layout, side navbar, carousel, and card styles
+*/
+
+/* -------------------------
+   Imports & CSS variables
+   ------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root{
+  --bg: #0f1724;            /* deep navy */
+  --card: #0b1220;          /* slightly lighter */
+  --muted: #94a3b8;         /* muted text */
+  --accent: #7c3aed;        /* purple accent */
+  --accent-2: #06b6d4;      /* teal accent for contrast */
+  --glass: rgba(255,255,255,0.03);
+  --glass-2: rgba(255,255,255,0.02);
+  --text: #e6eef8;
+  --radius: 12px;
+  --shadow-1: 0 6px 18px rgba(2,6,23,0.6);
+  --shadow-2: 0 12px 30px rgba(2,6,23,0.7);
+  --transition: 220ms cubic-bezier(.2,.9,.2,1);
 }
 
-header {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    text-align: center;
-    padding: 20px;
+/* -------------------------
+   Reset & base
+   ------------------------- */
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #071021 0%, #081427 50%, #071021 100%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  font-size:16px;
 }
 
-h1, h2 {
-    color: #ff6b6b; /* Anime-inspired red */
+a{color:inherit; text-decoration:none}
+img{display:block; max-width:100%}
+
+/* -------------------------
+   Layout - header & main
+   ------------------------- */
+#site-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 20px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter: blur(6px);
+  background: linear-gradient(180deg, rgba(8,12,20,0.6), rgba(8,12,20,0.4));
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  box-shadow: var(--shadow-1);
 }
 
-.anime-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 20px;
+.header-left, .header-center, .header-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.anime-item {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    padding: 15px;
-    margin: 10px;
-    width: 250px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* title */
+.header-center h1{
+  margin:0;
+  font-size:20px;
+  letter-spacing:0.6px;
+  font-weight:700;
+  color:var(--text);
+  text-shadow: 0 2px 12px rgba(124,58,237,0.12);
 }
 
-#random-facts {
-    text-align: center;
-    margin: 40px;
+/* small interactive buttons */
+#menu-btn, #search-btn{
+  background:transparent;
+  border:0;
+  color:var(--muted);
+  font-size:20px;
+  padding:8px;
+  border-radius:10px;
+  cursor:pointer;
+  transition: all var(--transition);
+}
+#menu-btn:hover, #search-btn:hover{ color:var(--text); transform:translateY(-2px) }
+
+/* logo thumbnail */
+#logo{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  object-fit:cover;
+  box-shadow: 0 6px 18px rgba(7,10,20,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
-button {
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+/* -------------------------
+   Side Navbar
+   ------------------------- */
+#side-navbar{
+  width:220px;
+  padding:20px;
+  position:fixed;
+  left:18px;
+  top:86px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: var(--shadow-2);
+  color:var(--muted);
+  transition: transform var(--transition), opacity var(--transition);
+  z-index:40;
 }
 
-button:hover {
-    background-color: #ff5252;
+#side-navbar[aria-hidden="true"]{ opacity:0.95; transform:translateX(-8px) }
+
+/* nav lists */
+#side-navbar ul{list-style:none; padding:0; margin:0}
+#side-navbar li{margin:8px 0}
+#side-navbar a{
+  display:block;
+  padding:10px 12px;
+  border-radius:10px;
+  color:var(--muted);
+  font-weight:600;
+  transition: background var(--transition), color var(--transition);
+  font-size:14px;
+}
+#side-navbar a:hover{
+  color:var(--text);
+  background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(6,182,212,0.06));
+  box-shadow: 0 6px 18px rgba(7,10,20,0.55);
 }
 
-footer {
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
+/* -------------------------
+   Main content wrapper
+   ------------------------- */
+#main-content{
+  max-width:1200px;
+  margin:22px auto;
+  padding:18px;
+  padding-left:260px; /* leave space for side nav */
+  transition: padding var(--transition);
+  min-height: calc(100vh - 120px);
+}
+
+/* cards & sections */
+section{
+  margin-bottom:26px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+  border-radius:14px;
+  padding:18px;
+  border:1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.55);
+}
+
+/* section headings */
+section h2{
+  margin:0 0 14px 0;
+  font-size:18px;
+  color:var(--text);
+  letter-spacing:0.4px;
+}
+
+/* -------------------------
+   Carousel
+   ------------------------- */
+#carousel{
+  position:relative;
+  overflow:hidden;
+  border-radius:12px;
+}
+
+#carousel-track{
+  display:flex;
+  align-items:stretch;
+  gap:14px;
+  transition: transform 420ms cubic-bezier(.2,.9,.3,1);
+  will-change: transform;
+  padding:10px;
+}
+
+/* single slide style (JS will inject .slide elements) */
+.slide{
+  min-width:100%;
+  flex:0 0 100%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-start;
+  padding:22px;
+  border-radius:10px;
+  background-size:cover;
+  background-position:center;
+  position:relative;
+  color:var(--text);
+  height:320px;
+  box-shadow: inset 0 -40px 60px rgba(2,6,23,0.55);
+}
+
+/* slide overlay content */
+.slide .meta{
+  max-width:62%;
+  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.35));
+  border-radius:10px;
+  padding:14px;
+  backdrop-filter: blur(6px);
+}
+.slide h3{ margin:0 0 8px 0; font-size:20px; font-weight:700 }
+.slide p{ margin:0; color:var(--muted); font-size:14px }
+
+/* carousel controls */
+#carousel-prev, #carousel-next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:30;
+  border:0;
+  background:var(--glass);
+  color:var(--text);
+  padding:10px;
+  border-radius:10px;
+  cursor:pointer;
+  transition: all var(--transition);
+  backdrop-filter: blur(6px);
+}
+#carousel-prev{ left:12px }
+#carousel-next{ right:12px }
+#carousel-prev:hover, #carousel-next:hover{ transform:translateY(-50%) scale(1.03); box-shadow:var(--shadow-1) }
+
+/* dots */
+#carousel-dots{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:12px;
+  display:flex;
+  gap:8px;
+  z-index:30;
+}
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  cursor:pointer;
+  transition: all var(--transition);
+  box-shadow: 0 6px 14px rgba(2,6,23,0.45);
+}
+.dot.active{
+  transform:scale(1.18);
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 18px rgba(124,58,237,0.18);
+}
+
+/* -------------------------
+   Anime List cards grid
+   ------------------------- */
+#anime-list{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:18px;
+}
+
+/* individual anime card */
+.anime-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  min-height:180px;
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.anime-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-2) }
+
+.anime-card .thumb{
+  width:100%;
+  height:140px;
+  border-radius:10px;
+  overflow:hidden;
+  background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+.anime-card .thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* content */
+.anime-card h3{
+  margin:0;
+  font-size:16px;
+  font-weight:700;
+}
+.anime-card .description{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.35;
+  display:block;
+  max-height:3.2em;
+  overflow:hidden;
+  position:relative;
+}
+
+/* read more */
+.read-more{
+  display:inline-block;
+  margin-left:6px;
+  color:var(--accent);
+  font-weight:700;
+  cursor:pointer;
+  font-size:13px;
+}
+.anime-card .description.expanded{ max-height:none }
+
+/* action row */
+.anime-card .actions{
+  margin-top:auto;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:space-between;
+}
+.watch-btn{
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color:#041021;
+  padding:8px 12px;
+  border-radius:10px;
+  font-weight:700;
+  font-size:14px;
+  border:0;
+  cursor:pointer;
+  text-decoration:none;
+  box-shadow: 0 8px 24px rgba(6,182,212,0.08);
+  transition: transform var(--transition);
+}
+.watch-btn:hover{ transform:translateY(-3px) }
+
+.meta-small{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:600;
+}
+
+/* -------------------------
+   Mobile Responsive (PERFECT VERSION) - REPLACE YE PURA
+   ------------------------- */
+@media (max-width: 1000px){
+  #main-content{ padding-left:20px }
+  
+  /* MOBILE NAVBAR - HIDDEN BY DEFAULT */
+  #side-navbar { 
+    position: fixed !important;
+    left: 0 !important;
+    top: 70px !important;
+    width: 280px !important;
+    height: calc(100vh - 70px) !important;
+    transform: translateX(-100%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: all var(--transition) !important;
+    border-radius: 0 16px 16px 0 !important;
+    z-index: 9999 !important;
+    display: block !important;
+    
+    /* 🔥 YE 3 LINES ADD KARO - SOLID BACKGROUND */
+    background: rgba(11, 20, 32, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+    border-right: 1px solid rgba(255,255,255,0.2) !important;
+  }
+  
+  #side-navbar.active {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  #anime-list{ grid-template-columns: repeat(2,1fr) }
+  .slide{ height:240px }
+}
+
+@media (max-width: 640px){
+  #site-header{ padding:12px }
+  .header-center h1{ font-size:18px }
+  #anime-list{ grid-template-columns: 1fr }
+  .slide{ height:200px; padding:14px }
+  #carousel-prev, #carousel-next{ padding:8px; font-size:14px }
+  #carousel-dots{ bottom:8px }
+}
+
+/* -------------------------
+   Utility helpers
+   ------------------------- */
+.kicker{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  color:var(--accent);
+  background: rgba(124,58,237,0.06);
+  padding:6px 8px;
+  border-radius:8px;
+}
+
+/* accessibility: focus outlines */
+:focus{ outline: 3px solid rgba(124,58,237,0.18); outline-offset:3px; border-radius:8px }
+
+/* small animation for loading placeholders (optional use) */
+.pulse{
+  animation: pulse 1600ms infinite;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.03));
+}
+@keyframes pulse{
+  0%{ opacity:1 }
+  50%{ opacity:0.6 }
+  100%{ opacity:1 }
+}
+
+/* Search Input Styling - tumhare theme ke saath match */
+.search-input {
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  width: 180px;
+  backdrop-filter: blur(10px);
+  display: none; /* hidden by default */
+  transition: all var(--transition);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+  transform: scale(1.02);
+}
+
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.read-more {
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 6px;
+}
+
+.read-more:hover {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+/* Description base style */
+.anime-card .description {
+  overflow: hidden;
+  max-height: 4.8em; /* about 3 lines */
+  line-height: 1.6em;
+  position: relative;
+}
+
+.anime-card .description.expanded {
+  max-height: none !important;
+}
+
+/* Read More Container - VISIBLE + Proper Layout */
+.description-container {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.read-more-btn {
+  display: inline-block !important;
+  color: var(--accent) !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  margin-top: 4px !important;
+  padding: 4px 8px !important;
+  background: rgba(124,58,237,0.1) !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  border: none !important;
+  transition: all var(--transition) !important;
+}
+
+.read-more-btn:hover {
+  background: rgba(124,58,237,0.2) !important;
+  color: var(--accent-2) !important;
+  transform: translateY(-1px) !important;
+}
+
+.full-desc {
+  margin: 0 !important;
+  color: var(--text) !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* Fix description height */
+.anime-card .short-desc {
+  max-height: 3em;
+  overflow: hidden;
+  line-height: 1.5em;
+  margin-bottom: 0;
+}
+
+.description-container {
+  position: relative; /* Positioned for z-index to work */
+  margin-bottom: 8px;
+  z-index: 1000; /* High z-index to ensure visibility */
+}
+
+.read-more-btn {
+  position: relative; /* Positioned */
+  z-index: 1100; /* Higher than description container */
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: rgba(124,58,237,0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition);
+}
+
+.read-more-btn:hover {
+  background: rgba(124,58,237,0.2);
+  color: var(--accent-2);
+  transform: translateY(-1px);
+}
+
+.full-desc {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  position: relative; /* Ensure it's above other elements */
+  z-index: 1050;
+}
+
+/* Parent card should also allow overflow visible so full description is not cut off */
+.anime-card {
+  position: relative;
+  overflow: visible;
+}
+
+.about-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #111;
+  color: #eee;
+  border-radius: 8px;
+  line-height: 1.6;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.about-section h2 {
+  margin-bottom: 10px;
+  color: #ffcc00;
+  text-transform: uppercase;
+}
+
+.about-section p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Search bar smooth inline appearance */
+#search-input {
     width: 100%;
-    bottom: 0;
+    max-width: 220px;  /* left side se space le */
+    transition: all 0.25s ease;
+}
+
+/* When search is open */
+header.search-active #search-input {
+    max-width: 100%;   /* mobile par full width */
+}
+
+/* Hide title when search active */
+header.search-active #site-title {
+    display: none;
+}
+
+
+
+
+
+/* -------------------------
+   Mobile Responsive (PERFECT VERSION)
+   ------------------------- */
+@media (max-width: 1000px){
+  #main-content{ 
+    padding-left:20px; 
+    transition: padding-left var(--transition);
+  }
+  
+  #side-navbar { 
+    position: fixed !important;
+    left: 0;
+    top: 70px;
+    width: 280px;
+    height: calc(100vh - 70px);
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition);
+    border-radius: 0 16px 16px 0;
+    z-index: 1000;
+  }
+  
+  #side-navbar.active {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  #anime-list{ grid-template-columns: repeat(2,1fr) }
+  .slide{ height:240px }
+}
+
+@media (max-width: 640px){
+  #site-header{ padding:12px }
+  .header-center h1{ font-size:18px }
+  #side-navbar{ width: 260px }
+  #anime-list{ grid-template-columns: 1fr }
+  .slide{ height:200px; padding:14px }
 }
